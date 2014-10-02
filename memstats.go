@@ -103,8 +103,10 @@ func (d *Diff) String() string {
 	writef(&buf, "Number of GCs", fmt.Sprintf("%d", d.NumGC))
 	if d.NumGC > 0 {
 		writef(&buf, "Pause time", d.PauseTotal.String())
-		writef(&buf, "Mean pause time", (d.PauseTotal / time.Duration(d.NumGC)).String())
-		writef(&buf, "Pause times (most recent first)", fmt.Sprintf("%v", d.Pause))
+		if d.NumGC > 1 {
+			writef(&buf, "Mean pause time", (d.PauseTotal / time.Duration(d.NumGC)).String())
+			writef(&buf, "Pause times (most recent first)", fmt.Sprintf("%v", d.Pause))
+		}
 	}
 	return buf.String()
 }
